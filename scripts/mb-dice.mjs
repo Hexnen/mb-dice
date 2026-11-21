@@ -49,12 +49,15 @@ Hooks.once("diceSoNiceReady", async (dice3d) => {
   // d4 — each physical face shows 3 numerals; the full triangular face art (d4f1..d4f4) already has
   // its triplet baked in DSN's exact layout, so we feed them as per-value `backgrounds`. `labels` must
   // be present for DSN to process backgrounds — keep them transparent so no extra numerals are drawn.
+  // The top-level transparent `bumpMaps` is required too: DSN only runs its d4 bump branch (which
+  // applies `backgrounds.bumpMaps`) when the top-level bump array is non-empty; without it the d4 is flat.
   dice3d.addDicePreset(
     {
       type: "d4",
       system: "mb-dice",
       colorset: "mb-dice",
       labels: range(1, 4).map(() => `${TEX}/d4blank.webp`),
+      bumpMaps: range(1, 4).map(() => `${TEX}/d4blank.webp`),
       backgrounds: {
         labels: range(1, 4).map((n) => `${TEX}/d4f${n}.webp`),
         bumpMaps: range(1, 4).map((n) => `${TEX}/d4f${n}-bump.webp`)
